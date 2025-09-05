@@ -1,0 +1,25 @@
+# prettier specific
+pnpm-lock.yaml
+
+# secret & data
+/data
+/.env*
+!.env*.example
+**/uploads/
+
+**/*.db
+
+# generated
+**/.astro/
+**/dist/
+**/node_modules/
+
+**/*.tsbuildinfo
+**/next-env.d.ts
+
+# debug
+**/*.log*
+
+# misc
+**/.DS_Store
+**/*.pem

@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://json.schemastore.org/lefthook.json
+# https://lefthook.dev/configuration/
+
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*"
+      run: pnpm exec prettier --check --ignore-unknown {staged_files}
+    lint:
+      glob: "*"
+      run: pnpm exec eslint --no-warn-ignored {staged_files}
