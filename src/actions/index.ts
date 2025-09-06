@@ -1,9 +1,9 @@
 import { defineAction, ActionError } from "astro:actions";
 import { z } from "astro:schema";
 import path from "path";
-import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { prisma } from "@/lib/prisma";
+import { access, constants, mkdir, readFile, writeFile } from "fs/promises";
 
 export const server = {
   store: defineAction({
@@ -32,13 +32,13 @@ export const server = {
 
         // Ensure upload directory exists
         const uploadDir = path.join(process.cwd(), "uploads");
-        await fs.promises.mkdir(uploadDir, { recursive: true });
+        await mkdir(uploadDir, { recursive: true });
 
         // Save file
         const filePath = path.join(uploadDir, filename);
         const arrayBuffer = await encryptedFile.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        await fs.promises.writeFile(filePath, buffer);
+        await writeFile(filePath, buffer);
 
         // Save metadata to database
         const encryptedFileRecord = await prisma.encryptedFile.create({
@@ -150,8 +150,7 @@ export const server = {
         const filename = `${fileId}.bin`;
         const filePath = path.join(process.cwd(), "uploads", filename);
 
-        const fileExists = await fs.promises
-          .access(filePath, fs.constants.F_OK)
+        const fileExists = await access(filePath, constants.F_OK)
           .then(() => true)
           .catch(() => false);
 
@@ -162,7 +161,7 @@ export const server = {
           });
         }
 
-        const encryptedFile = await fs.promises.readFile(filePath);
+        const encryptedFile = await readFile(filePath);
         const base64Data = Buffer.from(encryptedFile).toString("base64");
 
         return {

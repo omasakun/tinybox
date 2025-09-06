@@ -11,7 +11,7 @@
     "dev": "astro dev",
     "prebuild": "npm run db:generate",
     "build": "astro build",
-    "start": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate"
   },
