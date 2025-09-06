@@ -1,0 +1,26 @@
+---
+import "@/styles/global.css";
+import { Font } from "astro:assets";
+import Toaster from "@/components/Toaster";
+
+const { title = "TinyBox", description = "Secure end-to-end encrypted file sharing with client-side encryption" } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Font cssVariable="--font-noto-sans-jp" preload />
+    <Font cssVariable="--font-inconsolata" preload />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <slot />
+    <Toaster client:load />
+  </body>
+</html>
